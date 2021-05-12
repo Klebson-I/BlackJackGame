@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Girassol&display=swap" rel="stylesheet">
+    <title>BlackJack</title>
+</head>
+<body>
+   <!--<a href="https://pl.freepik.com/wektory/serce">Serce plik wektorowy utworzone przez starline - pl.freepik.com</a>
+<div>Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+<div>Icons made by <a href="https://www.flaticon.com/authors/alfredo-hernandez" title="Alfredo Hernandez">Alfredo Hernandez</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+--> 
+    <section class="board">
+        <section class="board__header">
+            <h1 class="board--heading">
+                BlackJack
+            </h1>
+            <img src="/img/poker-cards.png" width="60px" height="auto">
+        </section>  
+            <article class="board__player">
+                <h1 class="player--heading">
+                    Player Cards
+                </h1>
+                <article class="board__player--cards" data-player-cards>
+                   
+                </article>
+            </article>
+
+            <article class="board__opponent">
+                <h1 class="player--heading">
+                    Dealer Cards
+                </h1>
+                <article class="board__dealer--cards" data-dealer-cards>
+                    
+                </article>
+            </article>
+
+        <footer>
+            <section class="bank">
+                <span class="bank__header">
+                    <h1 class="bank__header--heading">Bank</h1>
+                </span>
+                
+                <span class="owned__money" data-owned-money>
+                    10$
+                </span>
+                
+            </section>
+
+            <section class="bet" data-bet-section>
+                <span class="bet__header">
+                    <h1 class="bet__header--heading">Bet</h1>
+                </span>
+
+                <article class="caps">
+                    <div class="cap1" data-cap-10><img src="/img/chip0.png"></div>
+                    <div class="cap2" data-cap-50><img src="/img/chip1.png"></div>
+                    <div class="cap3" data-cap-100><img src="/img/chip2.png"></div>
+                </article>
+            </section>
+
+            <section class="bet__value">
+                <h1 class="bet__value--header">
+                    Bet value:
+                </h1>
+                <span class="bet__value--value" data-bet-value>
+                    0$
+                </span>
+                <button class="reset__bet"data-reset-bet-button>
+                    Reset
+                </button>
+            </section>
+
+            <section class="points" points-section>
+                <h1 class="player__points" points-section-player>
+                    Player points : 0
+                </h1>
+                <h1 class="dealer__points" points-section-dealer>
+                    Dealer points : 0
+                </h1>
+            </section>
+
+            <section class="buttons">
+                <button class="buttonP hit" data-hit-button>Hit</button>
+                <button class="buttonP stand" data-stand-button>Stand</button>
+                <button class="start" data-start-button>Start</button>
+            </section>
+        </footer>
+            
+        
+    </section>
+    <script src="./js/Game.js" type="module"></script>
+</body>
+</html>

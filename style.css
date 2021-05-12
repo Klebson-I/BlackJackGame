@@ -1,0 +1,243 @@
+*,
+::after,
+::before{
+    padding: 0;
+    margin: 0;
+    box-sizing: inherit;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    box-sizing:border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.board{
+    background:linear-gradient(to top right,rgb(75, 145, 68),rgb(127, 197, 121));
+    min-width: 90vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 50px;
+    overflow: hidden;
+}
+.board__header{
+    display: flex;
+    justify-content: center;
+}
+.board--heading{
+    font-size: 50px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Girassol', cursive;
+}
+.board__player{
+    margin-top: 10px;
+    width: 100%;
+    height: 32vh;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.board__player--cards{
+    width: 100%;
+    height: calc(35vh-36px);
+    position: relative;
+    display: flex;
+}
+.board__dealer--cards{
+    width: 100%;
+    height: calc(35vh-36px);
+    position: relative;
+    display: flex;
+}
+
+.board__opponent{
+    width: 100%;
+    height: 32vh;
+    border-bottom: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.player--heading{
+    font-size: 35px;
+}
+.buttons{
+    width: 35%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.buttonP{
+    width: 200px;
+    height: 60px;
+    background-color:inherit;
+    font-size: 35px;
+    border:solid 1px black;
+    font-family: 'Girassol', cursive;
+    display: none;
+}
+.start{
+    width: 200px;
+    height: 60px;
+    background-color:inherit;
+    font-size: 35px;
+    border:solid 1px black;
+    font-family: 'Girassol', cursive;
+}
+.start:hover{
+    background:linear-gradient(to top right,rgb(85, 235, 72),rgb(36, 104, 29));
+    cursor: pointer;
+}
+.buttonP:hover{
+    background:linear-gradient(to top right,rgb(85, 235, 72),rgb(36, 104, 29));
+    cursor: pointer;
+}
+
+footer{
+    display: flex;
+    width: 100%;
+}
+.bank{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.bank__header--heading{
+    font-size: 40px;
+    font-family: 'Girassol', cursive;
+}
+.bank__header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.bet{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.bet__header--heading{
+    font-size: 25px;
+    font-family: 'Girassol', cursive;
+}
+.bet__header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.owned__money{
+    font-size: 35px;
+    font-family: 'Girassol', cursive;
+}
+.caps{
+    width: 100%;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    cursor: pointer;
+}
+.bet__value{
+    width:15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-family: 'Girassol', cursive;
+}
+.reset__bet{
+    width: 100px;
+    height: 40px;
+    background-color:inherit;
+    font-size: 35px;
+    border:solid 1px black;
+    font-family: 'Girassol', cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.reset__bet:hover{
+    background:linear-gradient(to top right,rgb(85, 235, 72),rgb(36, 104, 29));
+    cursor: pointer;
+}
+.points{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    display: none;
+}
+.points h1{
+    font-family: 'Girassol', cursive;
+    font-size: 35px;
+}
+
+.card{
+    width: 120px;
+    height: 180px;
+    background-color: white;
+    border-radius: 20px;
+    background-image: url('img/card-back.jpg');
+    position: relative;
+    transition:transform 1s linear;
+}
+
+.rotate{
+    transform: rotateY(180deg);
+}
+
+.upSign{
+    position: absolute;
+    display: flex;
+    height: 32px;
+    width: 50px;
+    font-size: 32px;
+    right: 5px;
+    top: 5px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    z-index: 10;
+    display: none;
+    transform: rotateY(180deg);
+}
+.midSign{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: none;
+}
+.downSign{
+    position: absolute;
+    display: flex;
+    height: 32px;
+    width: 50px;
+    font-size: 32px;
+    left: 5px;
+    bottom: 5px;
+    justify-content: center;
+    align-items: center;
+    transform: rotateZ(180deg) rotateY(180deg);
+    font-weight: 900;
+    z-index: 10;
+    display:none;
+}
