@@ -45,15 +45,13 @@ class Game{
 
     addListeners(){
         this.startButton.addEventListener('click',()=>{
-            if(this.bank.betMoney){
-                this.changeView();
-                this.board.startDeal();
-            }
-            else{
-                alert('First bet money!');
-            }
+           this.startButtonClick();
+        })
+        this.hitButton.addEventListener('click',()=>{
+            this.hitButtonClick();
         })
     }
+
     changeView(){
         this.startButton.style.display='none';
         this.standButton.style.display='block';
@@ -61,6 +59,22 @@ class Game{
         this.betSection.style.display='none';
         this.resetButton.style.display='none';
         this.pointsSection.style.display='flex';
+    }
+
+    startButtonClick(){
+        if(this.bank.betMoney){
+            this.changeView();
+            this.board.startDeal();
+        }
+        else{
+            alert('First bet money!');
+        }
+    }
+
+    hitButtonClick(){
+        if(this.board.isGameToStart==true&&this.board.playerLimit<=7){
+            this.board.giveCardToPlayer();
+        }
     }
 
 }

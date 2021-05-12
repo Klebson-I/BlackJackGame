@@ -9,6 +9,8 @@ export class Board{
     constructor(player,dealer){
         this.playerCardBoard=null;
         this.dealerCardBoard=null;
+        this.bigBoard=null;
+
         this.playerLimit=0;
         this.dealerLimit=0;
 
@@ -19,6 +21,9 @@ export class Board{
         this.dealerCards=null;
 
         this.cards=[];
+
+        this.opponentCardToReaveal=null;
+        this.isGameToStart=false;
     }
 
     init(){
@@ -26,23 +31,23 @@ export class Board{
         this.dealerCardBoard=ui.opponentCardsSpan;
         this.playerCards=this.player.cards;
         this.dealerCards=this.dealer.cards;
+        this.bigBoard=ui.board;
     }
 
      startDeal(){
         this.createDeck();
         this.shuffle();
 
-        this.giveCard(this.player);
-
+        this.giveCardToPlayer();
         setTimeout(()=>{
-            this.giveCard(this.player);
-            setTimeout(()=>{
-                this.giveCard(this.dealer);
+            this.giveCardToDealer();
                 setTimeout(()=>{
-                    this.giveCard(this.dealer);
-                },1000)
-            },1000)
-        },1000)
+                    this.giveCardToPlayer();
+                    setTimeout(()=>{
+                        this.giveCardToDealer();
+                    },1000);
+                },1000);
+        },1000);
     }
 
     createDeck(){
@@ -63,85 +68,105 @@ export class Board{
         } 
     }
 
-    giveCard(player){
+    giveCardToPlayer(){
         const card=this.cards.pop();
-        player.cards.push(card);
+        this.player.cards.push(card);
         const renderedCard=card.createCard();
 
-        if(player.name=='player'){
-            this.playerCardBoard.appendChild(renderedCard);
-            renderedCard.style.left='100%';
-            renderedCard.style.top='0%';
-            this.moveCard(renderedCard,this.player);
-        }
-        if(player.name=='dealer'){
-            this.dealerCardBoard.appendChild(renderedCard);
-            renderedCard.style.left='100%';
-            renderedCard.style.top='0%';
-            this.moveCard(renderedCard,this.dealer);
-        }
-
-        
-        
+        this.playerCardBoard.appendChild(renderedCard);
+        renderedCard.style.left='100%';
+        renderedCard.style.top='0%';
+        this.moveCardPlayer(renderedCard);
     }
 
-    moveCard(card,player){
-        let cardLeft=1382.5;
-        if(player.name=='player'){
-            const interval=setInterval(()=>{
-                if(card.offsetLeft>this.playerLimit*172.75+20)
-                {
-                    card.style.left=`${cardLeft}px`;
-                }
-                else
-                {
-                    this.roateCard(card,this.player);
-                    clearInterval(interval);
-                }
-                cardLeft-=10;
-            },10);
-        }
+    giveCardToDealer(){
+        const card=this.cards.pop();
+        this.dealer.cards.push(card);
+        const renderedCard=card.createCard();
 
-        if(player.name=='dealer'){
-            const interval=setInterval(()=>{
-                if(card.offsetLeft>this.dealerLimit*172.75+20)
-                {
-                    card.style.left=`${cardLeft}px`;
-                }
-                else
-                {
-                    this.roateCard(card,this.dealer);
-                    clearInterval(interval);
-                }
-                cardLeft-=10;
-            },10);
-        }
-       
+        this.dealerCardBoard.appendChild(renderedCard);
+        renderedCard.style.left='100%';
+        renderedCard.style.top='0%';
+        this.moveCardDealer(renderedCard);
     }
 
-    roateCard(card,player){
-        if(player.name=='player'){
-            this.playerLimit++;
-        card.classList.add('rotate');
-        setTimeout(()=>{
-           card.children[1].style.display='flex';
-           card.children[2].style.display='flex';
-           card.children[0].style.display='flex';
-           card.style.background='white';
-        },500)
-        }
+    moveCardPlayer(card){
+        let cardLeft=this.bigBoard.offsetWidth;
+        const cardWidth=card.offsetWidth;
+        const margin=this.playerCardBoard.children.length*20;
 
-        if(player.name=='dealer'){
-            this.dealerLimit++;
+
+        
+        const interval=setInterval(()=>{
+            if(card.offsetLeft>this.playerLimit*cardWidth+margin)
+            {
+                card.style.left=`${cardLeft}px`;
+            }
+            else
+            {
+                this.rotateCardPlayer(card);
+                clearInterval(interval);
+            }
+            cardLeft-=10;
+        },10);
+    }
+
+    moveCardDealer(card){
+        let cardLeft=this.bigBoard.offsetWidth;
+        const cardWidth=card.offsetWidth;
+        const margin=this.dealerCardBoard.children.length*20;
+
+        const interval=setInterval(()=>{
+            if(card.offsetLeft>this.dealerLimit*cardWidth+margin)
+            {
+                card.style.left=`${cardLeft}px`;
+            }
+            else
+            {
+                this.rotateCardDealer(card);
+                clearInterval(interval);
+            }
+            cardLeft-=10;
+        },10);
+    }
+
+    rotateCardPlayer(card){
+        this.playerLimit++;
         card.classList.add('rotate');
         setTimeout(()=>{
+           card.children[0].style.display='flex';
            card.children[1].style.display='flex';
            card.children[2].style.display='flex';
-           card.children[0].style.display='flex';
            card.style.background='white';
+           
         },500)
-        }
+    }
+
+    rotateCardDealer(card){
+        this.dealerLimit++;
         
+        if(this.dealerCardBoard.children.length==2){
+           this.setCardToReveal(card);
+           this.startGame();
+        }
+        else{
+            card.classList.add('rotate');
+            setTimeout(()=>{
+                card.children[0].style.display='flex';
+                card.children[1].style.display='flex';
+                card.children[2].style.display='flex';
+                card.style.background='white';
+                
+             },500)
+        }
+    }
+
+    setCardToReveal(card){
+        this.opponentCardToReaveal=card;
+    }
+    
+    startGame(){
+        this.isGameToStart=true;
     }
 
 }

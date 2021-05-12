@@ -13,5 +13,6 @@ export const UiSelectors={
     betSection:document.querySelector('[data-bet-section]'),
     pointsSection:document.querySelector('[points-section]'),
     playerPointsSpan: document.querySelector('[points-section-player]'),
-    dealerPointsSpan: document.querySelector('[points-section-dealer]')
+    dealerPointsSpan: document.querySelector('[points-section-dealer]'),
+    board: document.querySelector('[data-board]')
 }
