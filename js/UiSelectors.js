@@ -14,5 +14,10 @@ export const UiSelectors={
     pointsSection:document.querySelector('[points-section]'),
     playerPointsSpan: document.querySelector('[points-section-player]'),
     dealerPointsSpan: document.querySelector('[points-section-dealer]'),
-    board: document.querySelector('[data-board]')
+    board: document.querySelector('[data-board]'),
+    comBoard: document.querySelector('[data-com]'),
+    winResoults:document.querySelector('[data-is-win-span]'),
+    winValueResoults:document.querySelector('[data-win-value]'),
+    moneyLeftResoults:document.querySelector('[data-money]'),
+    playAgainButton:document.querySelector('[data-play-again]')
 }

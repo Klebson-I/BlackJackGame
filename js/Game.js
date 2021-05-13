@@ -19,6 +19,7 @@ class Game{
         this.pointsSection=null;
         this.isLose=null;
         this.com=null;
+        
     }
 
     newGame(){
@@ -58,18 +59,29 @@ class Game{
         })
     }
 
-    changeView(){
-        this.startButton.style.display='none';
-        this.standButton.style.display='block';
-        this.hitButton.style.display='block';
-        this.betSection.style.display='none';
-        this.resetButton.style.display='none';
-        this.pointsSection.style.display='flex';
+    changeView(num){
+        if(num==1){
+            this.startButton.style.display='none';
+            this.standButton.style.display='block';
+            this.hitButton.style.display='block';
+            this.betSection.style.display='none';
+            this.resetButton.style.display='none';
+            this.pointsSection.style.display='flex';
+        }
+        if(num==2){
+            this.startButton.style.display='block';
+            this.standButton.style.display='none';
+            this.hitButton.style.display='none';
+            this.betSection.style.display='flex';
+            this.resetButton.style.display='flex';
+            this.pointsSection.style.display='none';
+        }
+        
     }
 
     startButtonClick(){
         if(this.bank.betMoney){
-            this.changeView();
+            this.changeView(1);
             this.board.startDeal();
         }
         else{
@@ -118,18 +130,24 @@ class Game{
 
     checkIfOver21(){
         if(this.player.points>21){
-            this.isLose=true;
+            this.isLose='lose';
             this.endGame();
         }
     }
     
     checkScore(){
-        if(this.player.points<this.dealer.points&&this.dealer.points<=21){
-            this.isLose=true;
+        if(this.dealer.points>21){
+            this.isLose='win';
             this.endGame();
+            return;
+        }
+        if(this.dealer.points>this.player.points){
+            this.isLose='lose';
+            this.endGame();
+            return;
         }
 
-        if(this.player.points>this.dealer.points&&this.player.points){
+        if(this.dealer.points<this.player.points){
             this.board.giveCardToDealer();
             setTimeout(()=>{
                 this.dealer.evaluatePoints();
@@ -137,18 +155,28 @@ class Game{
             },2000)
         }
 
-        if(this.dealer.points>21){
-            this.isLose=false;
-            this.endGame();
+        if(this.dealer.points==this.player.points&&this.player.points<21&&this.getRisk()==true){
+            console.log('risk');
+            this.board.giveCardToDealer();
+            setTimeout(()=>{
+                this.dealer.evaluatePoints();
+                this.checkScore();
+            },2000)
+            return;
         }
 
-        if(this.dealer.points==this.player.points){
-            this.isLose=0;
+        if(this.player.points==this.dealer.points){
+            this.isLose='both';
             this.endGame();
+            return;
         }
     }
 
-
+    getRisk(){
+        const random=Math.floor(Math.random()*10+1);
+        if(random%5==0)return true;
+        else return false;
+    }
 
 
     endGame(){
@@ -156,20 +184,37 @@ class Game{
         this.hitButton.setAttribute('disabled','');
         this.standButton.setAttribute('disabled','');
 
-        if(this.isLose==true){
+        if(this.isLose=='lose'){
             let lostMoney=this.bank.betMoney;
             this.bank.betMoney=0;
             this.bank.updateMoneySpans();
-            this.com=new Com(true,lostMoney,this.bank);
-            console.log(this.board.cards);
+            this.com=new Com('lose',lostMoney,this.bank);
+            this.addListenerToCom();
         }
-        if(this.isLose==false){
+        if(this.isLose=='win'){
+            let wonMoney=this.bank.betMoney*2;
+            this.bank.betMoney=0;
+            this.bank.ownMoney+=wonMoney;
+            this.bank.updateMoneySpans();
+            this.com=new Com('win',wonMoney,this.bank);
+            this.addListenerToCom();
+        }
+        if(this.isLose=='both'){
             let wonMoney=this.bank.betMoney;
             this.bank.betMoney=0;
-            this.bank.ownMoney+=2*wonMoney;
+            this.bank.ownMoney+=wonMoney;
             this.bank.updateMoneySpans();
-            this.com=new Com(true,lostMoney,this.bank);
+            this.com=new Com('both',wonMoney,this.bank);
+            this.addListenerToCom();
         }
+        
+    }
+
+    addListenerToCom(){
+        this.com.playAgainButton.addEventListener('click',()=>{
+            this.com.hide();
+            this.startGame();
+        })
     }
 
     giveCardsBack(){
@@ -182,6 +227,34 @@ class Game{
         })
 
         this.board.shuffle();
+
+        this.player.cards=[];
+        this.dealer.cards=[];
+        this.player.points=0;
+        this.dealer.points=0;
+    }
+
+    startGame(){
+
+        while(this.board.dealerCardBoard.firstChild){
+            this.board.dealerCardBoard.lastChild.remove();
+        }
+        while(this.board.playerCardBoard.firstChild){
+            this.board.playerCardBoard.lastChild.remove();
+        }
+
+        this.player.updatePlayerPoints();
+        this.dealer.updatePlayerPoints();
+
+        this.hitButton.removeAttribute('disabled');
+        this.standButton.removeAttribute('disabled');
+
+        this.board.playerLimit=0;
+        this.board.dealerLimit=0;
+
+        this.isLose=null;
+
+        this.changeView(2);
     }
 
 }
