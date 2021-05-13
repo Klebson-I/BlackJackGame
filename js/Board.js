@@ -23,6 +23,7 @@ export class Board{
         this.cards=[];
 
         this.opponentCardToReaveal=null;
+        this.opponentCardToReavealObject=null;
         this.isGameToStart=false;
     }
 
@@ -76,7 +77,7 @@ export class Board{
         this.playerCardBoard.appendChild(renderedCard);
         renderedCard.style.left='100%';
         renderedCard.style.top='0%';
-        this.moveCardPlayer(renderedCard);
+        this.moveCardPlayer(renderedCard,card);
     }
 
     giveCardToDealer(){
@@ -87,14 +88,14 @@ export class Board{
         this.dealerCardBoard.appendChild(renderedCard);
         renderedCard.style.left='100%';
         renderedCard.style.top='0%';
-        this.moveCardDealer(renderedCard);
+        this.moveCardDealer(renderedCard,card);
     }
 
-    moveCardPlayer(card){
+    moveCardPlayer(card,cardObj){
         let cardLeft=this.bigBoard.offsetWidth;
         const cardWidth=card.offsetWidth;
         const margin=this.playerCardBoard.children.length*20;
-
+        
 
         
         const interval=setInterval(()=>{
@@ -104,17 +105,18 @@ export class Board{
             }
             else
             {
-                this.rotateCardPlayer(card);
+                this.rotateCardPlayer(card,cardObj);
                 clearInterval(interval);
             }
             cardLeft-=10;
         },10);
     }
 
-    moveCardDealer(card){
+    moveCardDealer(card,cardObj){
         let cardLeft=this.bigBoard.offsetWidth;
         const cardWidth=card.offsetWidth;
         const margin=this.dealerCardBoard.children.length*20;
+        
 
         const interval=setInterval(()=>{
             if(card.offsetLeft>this.dealerLimit*cardWidth+margin)
@@ -123,16 +125,17 @@ export class Board{
             }
             else
             {
-                this.rotateCardDealer(card);
+                this.rotateCardDealer(card,cardObj);
                 clearInterval(interval);
             }
             cardLeft-=10;
         },10);
     }
 
-    rotateCardPlayer(card){
+    rotateCardPlayer(card,cardObj){
         this.playerLimit++;
         card.classList.add('rotate');
+        cardObj.isReaveal=true;
         setTimeout(()=>{
            card.children[0].style.display='flex';
            card.children[1].style.display='flex';
@@ -142,15 +145,15 @@ export class Board{
         },500)
     }
 
-    rotateCardDealer(card){
+    rotateCardDealer(card,cardObj){
         this.dealerLimit++;
-        
         if(this.dealerCardBoard.children.length==2){
-           this.setCardToReveal(card);
+           this.setCardToReveal(card,cardObj);
            this.startGame();
         }
         else{
             card.classList.add('rotate');
+            cardObj.isReaveal=true;
             setTimeout(()=>{
                 card.children[0].style.display='flex';
                 card.children[1].style.display='flex';
@@ -161,12 +164,30 @@ export class Board{
         }
     }
 
-    setCardToReveal(card){
+    rotateLastDealerCard(card){
+        
+        card.classList.add('rotate');
+        this.opponentCardToReavealObject.isReaveal=true;
+        setTimeout(()=>{
+            card.children[0].style.display='flex';
+            card.children[1].style.display='flex';
+            card.children[2].style.display='flex';
+            card.style.background='white';
+                
+        },500)
+    }
+
+    setCardToReveal(card,cardObj){
         this.opponentCardToReaveal=card;
+        this.opponentCardToReavealObject=cardObj;
     }
     
     startGame(){
         this.isGameToStart=true;
+        this.player.evaluatePoints();
+        this.dealer.evaluatePoints();
     }
+
+   
 
 }

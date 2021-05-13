@@ -54,6 +54,7 @@ export class Bank{
     }
 
     updateMoneySpans(){
+        console.log(`bet value ${this.betMoney}`);
         this.moneySpan.textContent=`${this.ownMoney} $`;
         this.betSpan.textContent=`${this.betMoney} $`;
     }

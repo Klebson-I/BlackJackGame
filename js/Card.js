@@ -27,6 +27,7 @@ export const Weights=[
         constructor(weight,type){
             this.weight=weight;
             this.type=type;
+            this.isReaveal=false;
         }
     
         createCard(){
