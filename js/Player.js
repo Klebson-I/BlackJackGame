@@ -31,12 +31,16 @@ export class Player{
 
     getStrength(){
         let sum=0;
-        console.log(this.cards);
-        if(this.countCardsByWeight('A')==2&&this.cards.length==2){
+        
+        if(this.countCardsByWeight('A')==2&&this.checkTwoAsReveal()==2){
             return 21;
         }
+        if(this.countCardsByWeight('A')==2&&this.checkTwoAsReveal()==1){
+            return 11;
+        }
+    
         const cards=this.cards.map(card=>{
-            
+
             if(['K','Q','J'].includes(card.weight)&&card.isReaveal==true){
                 console.log('1');
                 return 10;
@@ -66,6 +70,17 @@ export class Player{
 
     countCardsByWeight(weight){
         return this.cards.filter(card=>card.weight==weight).length;
+    }
+
+    checkTwoAsReveal(){
+        let isReveal=0;
+         this.cards.forEach((card)=>{
+             if(card.weight=='A'&&card.isReaveal==true){
+                 isReveal++;
+             }
+         })
+         console.log(isReveal);
+         return isReveal;
     }
 
 }
